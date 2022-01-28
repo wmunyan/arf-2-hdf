@@ -22,20 +22,10 @@ class SchemaValidatorFactory {
         def rootName = Utilities.getInstance().getElementBasename(root.name())
 
         switch (rootName) {
-            case "data-stream-collection":
-                return new DatastreamCollectionSchemaValidator()
             case "Benchmark":
                 return new XccdfSchemaValidator()
             case "Tailoring":
                 return new XccdfSchemaValidator()
-            case "cpe-list":
-                return new CPEDictionarySchemaValidator()
-            case "oval_definitions":
-                return new OvalDefinitionsSchemaValidator()
-            case "oval_variables":
-                return new OvalVariablesSchemaValidator()
-            case "oval_results":
-                return new OvalResultsSchemaValidator()
             case "asset-report-collection":
                 return new AssetReportFormatSchemaValidator()
             default:
