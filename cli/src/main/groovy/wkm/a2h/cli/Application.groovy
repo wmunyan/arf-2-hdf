@@ -1,10 +1,10 @@
-package wkm.a2h
+package wkm.a2h.cli
 
 import groovy.cli.picocli.CliBuilder
 import org.slf4j.LoggerFactory
+import wkm.a2h.HdfGenerator
 import wkm.common.Utilities
 import wkm.common.XmlParserFactory
-import wkm.common.fact.SchemaValidatorFactory
 
 class Application {
     // CLI:

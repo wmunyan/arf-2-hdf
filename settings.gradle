@@ -1,2 +1,4 @@
 rootProject.name = 'arf-2-hdf'
+include 'cli'
+include 'library'
 

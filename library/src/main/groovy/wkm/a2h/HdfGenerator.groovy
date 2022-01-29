@@ -10,6 +10,9 @@ class HdfGenerator {
     def generate() {
         def hdfMap = [:]
 
+        if (testResultNode) {
+
+        }
         return hdfMap
     }
 }

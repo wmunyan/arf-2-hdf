@@ -1,4 +1,4 @@
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder
+import PatternLayoutEncoder
 
 // See http://logback.qos.ch/manual/groovy.html for details on configuration
 appender('STDOUT', ConsoleAppender) {
@@ -8,4 +8,4 @@ appender('STDOUT', ConsoleAppender) {
 }
 
 //root(INFO, ['STDOUT'])
-root(OFF, ['STDOUT'])
+root(ch.qos.logback.classic.Level.OFF, ['STDOUT'])
