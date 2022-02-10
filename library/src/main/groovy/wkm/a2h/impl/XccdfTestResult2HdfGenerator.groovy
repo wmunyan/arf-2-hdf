@@ -58,10 +58,13 @@ class XccdfTestResult2HdfGenerator implements IHdfGenerator {
      * @return the array of maps to be converted to JSON. For
      * an XCCDF TestResult, that array will always be 1 item.
      */
-    def generate(def sourceNode, def supportNode) {
+    def generate(def generationOptions) {
         log.info "[START] XCCDF-to-HDF Generator"
 
-        def hdfResults = []
+        def hdfResults  = []
+        def sourceNode  = generationOptions."source-node"
+        def supportNode = generationOptions."support-node"
+        def generator   = generationOptions."generator" ?: "XCCDF to HDF Mapper"
 
         def sourceNodeRoot  = Utilities.instance.getElementBasename(sourceNode.name())
         def supportNodeRoot = Utilities.instance.getElementBasename(supportNode.name())
@@ -80,7 +83,7 @@ class XccdfTestResult2HdfGenerator implements IHdfGenerator {
             StreamingJsonBuilder builder = new StreamingJsonBuilder(writer)
             builder {
                 platform {
-                    name "CCCC Heimdall Mapper"
+                    name generator
                     release "0.1"
                     target_id ""
                 }
@@ -93,8 +96,7 @@ class XccdfTestResult2HdfGenerator implements IHdfGenerator {
                     foo author.foo
                 }
             }
-            String json = JsonOutput.prettyPrint(writer.toString())
-            log.info json
+            hdfResults << JsonOutput.prettyPrint(writer.toString())
         } else {
             log.error "Invalid source (TestResult) or support (Benchmark) nodes provided"
         }

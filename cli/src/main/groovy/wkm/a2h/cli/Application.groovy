@@ -79,7 +79,7 @@ class Application {
                 HdfGeneratorFactory.getGenerator(
                     Utilities.instance.getElementBasename(inputNode.name()))
             if (hdfGenerator) {
-                def hdfs = hdfGenerator.generate(inputNode)
+                def hdfs = hdfGenerator.generate(["source-node": inputNode, "support-node": null])
                 if (hdfs.size() > 0) {
                     log.info "TODO: SAVE EACH HDF TO A FILE IN THE OUTPUT-DIR"
                 } else {

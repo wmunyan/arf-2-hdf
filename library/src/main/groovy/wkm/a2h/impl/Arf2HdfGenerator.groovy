@@ -14,10 +14,11 @@ class Arf2HdfGenerator implements IHdfGenerator {
      * This will be an array because (in theory), an ARF
      * can contain multiple XCCDF TestResult components.
      */
-    def generate(def sourceNode, def supportNode = null) {
+    def generate(generationOptions) {
         log.info "[START] ARF-to-HDF Generator"
 
         def hdfResults = []
+        def sourceNode = generationOptions."source-node"
 
         // Extract the XCCDF <TestResult> Nodes
         def testResults = sourceNode."**".findAll { n ->
@@ -35,16 +36,20 @@ class Arf2HdfGenerator implements IHdfGenerator {
 
         if (testResults) {
             IHdfGenerator hdfGenerator = new XccdfTestResult2HdfGenerator()
-            def hdfs = []
             testResults.each { testResult ->
                 def associatedBenchmark = testResult.children().find { n ->
                     n instanceof Node && Utilities.instance.getElementBasename(n.name()) == "benchmark"
                 }
                 if (associatedBenchmark) {
                     def benchmarkId = associatedBenchmark.@id.toString()
-                    def testResultHdfs = hdfGenerator.generate(testResult, sourceBenchmarkMap[benchmarkId])
+                    def x2hOptions = [
+                        "source-node": testResult,
+                        "support-node": sourceBenchmarkMap[benchmarkId],
+                        "generator": "ARF-to-HDF Mapper"
+                    ]
+                    def testResultHdfs = hdfGenerator.generate(x2hOptions)
                     if (testResultHdfs && testResultHdfs.size() > 0) {
-                        hdfs << testResultHdfs[0]
+                        hdfResults << testResultHdfs[0]
                     }
                 } else {
                     log.error "No <benchmark> element found for <TestResult>"
